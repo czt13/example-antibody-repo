@@ -1,0 +1,19 @@
+{
+  "antibody_name": "Anti-Bad-Example-2",
+  "uniprot_accession_number": "P54321",
+  "uniprot_link": "https://www.uniprot.org/uniprotkb/P54321/entry",
+  "target_name_protein_biomarker": "Type Conflict Protein",
+  "ag_notes_epitope_or_modified_forms": "None",
+  "reacts_with": "Human", 
+  "host_organism_and_isotype": "Mouse IgG1",
+  "format_recombinant_monoclonal": "Recombinant",
+  "open_source": true,
+  "vendor": "Addgene",
+  "catalog_number": "888888",
+  "catalog_link": "https://www.addgene.org/888888/",
+  "rrid": "RRID:AB_0000000",
+  "validated_in_these_applications": "Western Blot",
+  "validation_data_link": "https://www.addgene.org/888888/",
+  "validation_notes": "Testing data type error.",
+  "validated_by": "Test Suite"
+}

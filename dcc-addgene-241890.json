@@ -1,0 +1,30 @@
+{
+  "antibody_name": "Anti-DCC [IPI-mDCC.114]",
+  "uniprot_accession_number": "P70211",
+  "uniprot_link": "https://www.uniprot.org/uniprotkb/P70211/entry",
+  "target_name_protein_biomarker": "DCC",
+  "ag_notes_epitope_or_modified_forms": "Mouse target; recognizes mouse and human",
+  "reacts_with": [
+    "Human",
+    "Mouse"
+  ],
+  "host_organism_and_isotype": "Rabbit IgG",
+  "format_recombinant_monoclonal": "Chimeric Recombinant (Human V / Rabbit C)",
+  "open_source": true,
+  "vendor": "Addgene",
+  "catalog_number": "241890",
+  "catalog_link": "https://www.com/search?q=241890",
+  "rrid": "RRID:AB_3698379",
+  "validations": [
+    {
+      "application": "Flow Cytometry",
+      "link": "https://datahub.addgene.org/antibody/28i6c9?_gl=1*1m43zwb*_gcl_au*MTAzODQyMjMzMi4xNzY4OTM1NDYy*_ga*MTgyOTQxODU2Ni4xNzQyMjM3OTg2*_ga_5SC3L963MZ*czE3NzM1MTUyNDAkbzIwNSRnMSR0MTc3MzUxNTI3OCRqMjIkbDAkaDA.",
+      "notes": "Validated by IPI"
+    },
+    {
+      "application": "ICC",
+      "link": "https://datahub.addgene.org/antibody/p8smjr?_gl=1*1hjvl21*_gcl_au*MTAzODQyMjMzMi4xNzY4OTM1NDYy*_ga*MTgyOTQxODU2Ni4xNzQyMjM3OTg2*_ga_5SC3L963MZ*czE3NzM1MTUyNDAkbzIwNSRnMSR0MTc3MzUxNTM0MyRqNjAkbDAkaDA.",
+      "notes": "Validated by IPI"
+    }
+  ]
+}

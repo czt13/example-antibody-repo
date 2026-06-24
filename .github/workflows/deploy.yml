@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'data/**' #  The website will ONLY rebuild if a file inside the data/ folder is added or modified.
+      - '*.html'
 
 permissions:
   contents: write

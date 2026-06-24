@@ -2,7 +2,10 @@ name: Deploy Database to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ] # Runs whenever a PR is merged to main
+    branches:
+      - main
+    paths:
+      - 'data/**' #  The website will ONLY rebuild if a file inside the data/ folder is added or modified.
 
 permissions:
   contents: write

@@ -1,0 +1,25 @@
+{
+  "antibody_name": "Anti-Integrin alpha 5 beta 1 [IPI-ITGA5/ITGB1.4]",
+  "uniprot_accession_number": "P05556",
+  "uniprot_link": "https://www.uniprot.org/uniprotkb/P05556/entry",
+  "target_name_protein_biomarker": "Integrin alpha 5 beta 1",
+  "ag_notes_epitope_or_modified_forms": "Human target; binds particular alpha/beta pair",
+  "reacts_with": [
+    "Human",
+    "Mouse"
+  ],
+  "host_organism_and_isotype": "Rabbit IgG",
+  "format_recombinant_monoclonal": "Chimeric Recombinant (Human V / Rabbit C)",
+  "open_source": true,
+  "vendor": "Addgene",
+  "catalog_number": "213652",
+  "catalog_link": "https://www.addgene.org/213652/",
+  "rrid": "RRID:AB_3076498",
+  "validations": [
+    {
+      "application": "Flow Cytometry",
+      "link": "https://datahub.addgene.org/antibody/dni4ue?_gl=1*cb2sin*_gcl_au*MTAzODQyMjMzMi4xNzY4OTM1NDYy*_ga*MTgyOTQxODU2Ni4xNzQyMjM3OTg2*_ga_5SC3L963MZ*czE3NzMzMzAxOTUkbzIwNCRnMSR0MTc3MzMzMTIyNSRqNjAkbDAkaDA.",
+      "notes": "Validated by IPI via Addgene Data Hub."
+    }
+  ]
+}

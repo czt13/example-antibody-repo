@@ -2,50 +2,43 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "AntibodyEntry",
   "type": "object",
-  "properties": {
-    "antibody_name": { "type": "string" },
-    "uniprot_accession_number": { "type": "string" },
-    "uniprot_link": { "type": "string", "format": "uri" },
-    "target_name_protein_biomarker": { "type": "string" },
-    "ag_notes_epitope_or_modified_forms": { "type": "string" },
-    "reacts_with": { 
-      "type": "array", 
-      "items": { "type": "string" },
-      "description": "List of species the antibody reacts with"
-    },
-    "host_organism_and_isotype": { "type": "string" },
-    "format_recombinant_monoclonal": { "type": "string" },
-    "open_source": { "type": "boolean" },
-    "vendor": { "type": "string" },
-    "catalog_number": { "type": "string" },
-    "catalog_link": { "type": "string", "format": "uri" },
-    "rrid": { "type": "string", "pattern": "^RRID:.*$" },
-    "validated_in_these_applications": {
-      "type": "array",
-      "items": { "type": "string" },
-      "description": "e.g., WB, IHC, ICC, FC"
-    },
-    "validation_data_link": { "type": "string", "format": "uri" },
-    "validation_notes": { "type": "string" },
-    "validated_by": { "type": "string" }
-  },
   "required": [
     "antibody_name",
     "uniprot_accession_number",
-    "uniprot_link",
-    "target_name_protein_biomarker",
-    "ag_notes_epitope_or_modified_forms",
-    "reacts_with",
-    "host_organism_and_isotype",
-    "format_recombinant_monoclonal",
-    "open_source",
     "vendor",
     "catalog_number",
-    "catalog_link",
     "rrid",
-    "validated_in_these_applications",
-    "validation_data_link",
-    "validation_notes",
-    "validated_by"
-  ]
+    "validations"
+  ],
+  "properties": {
+    "antibody_name": { "type": "string" },
+    "uniprot_accession_number": { "type": "string" },
+    "vendor": { "type": "string" },
+    "catalog_number": { "type": "string" },
+    "rrid": { "type": "string" },
+    
+    "validations": {
+      "type": "array",
+      "description": "A flexible list of individual application validations and their data links.",
+      "items": {
+        "type": "object",
+        "required": ["application", "link"],
+        "properties": {
+          "application": { 
+            "type": "string",
+            "description": "e.g., Western Blot, IHC, ICC, Flow Cytometry" 
+          },
+          "link": { 
+            "type": "string", 
+            "format": "uri",
+            "description": "The explicit URL showcasing the validation data for this specific application."
+          },
+          "notes": { 
+            "type": "string",
+            "description": "Optional details like tissue type, dilution, or individual researcher name."
+          }
+        }
+      }
+    }
+  }
 }

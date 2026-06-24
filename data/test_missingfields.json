@@ -1,0 +1,8 @@
+{
+  "antibody_name": "Anti-Bad-Example-1",
+  "uniprot_accession_number": "P12345",
+  "uniprot_link": "https://www.uniprot.org/uniprotkb/P12345/entry",
+  "target_name_protein_biomarker": "Faulty Protein",
+  "vendor": "Addgene",
+  "catalog_number": "999999"
+}

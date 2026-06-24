@@ -23,13 +23,12 @@
                             <th>Vendor</th>
                             <th>Catalog Number</th>
                             <th>RRID</th>
-                            <th>Validated Applications</th>
-                            <th>Validation Summary</th>
+                            <th>Assay Validation Records</th>
                         </tr>
                     </thead>
                     <tbody id="databaseBody">
                         <tr>
-                            <td colspan="10" class="text-center py-5 text-muted">
+                            <td colspan="9" class="text-center py-5 text-muted">
                                 <div class="spinner-border text-secondary mb-2" role="status"></div>
                                 <br>Loading registry entries...
                             </td>
@@ -41,7 +40,7 @@
     </div>
 
     <script>
-        // Automatically fetch the centralized database compiled by GitHub Actions
+        // Fetch the compiled database file
         async function loadDatabase() {
             try {
                 const response = await fetch('./database.json');
@@ -49,18 +48,18 @@
                 renderTable(antibodies);
             } catch (error) {
                 document.getElementById('databaseBody').innerHTML = 
-                    `<tr><td colspan="10" class="text-center text-danger py-4">Error loading data. Verify that database.json has been compiled successfully.</td></tr>`;
+                    `<tr><td colspan="9" class="text-center text-danger py-4">Error loading data. Verify that database.json has been compiled successfully.</td></tr>`;
             }
         }
 
         function renderTable(data) {
             const tbody = document.getElementById('databaseBody');
             if (data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="10" class="text-center py-4 text-muted">No entries found in the database.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center py-4 text-muted">No entries found in the database.</td></tr>`;
                 return;
             }
 
-            // Loop through all data objects and convert them into interactive table rows
+            // Map entries into safe table rows
             tbody.innerHTML = data.map(ab => `
                 <tr>
                     <td><strong>${ab.antibody_name}</strong></td>
@@ -71,8 +70,8 @@
                     <td>
                         <a href="${ab.uniprot_link}" target="_blank" class="text-decoration-none fw-semibold">${ab.uniprot_accession_number}</a>
                     </td>
-                    <td>${ab.host_organism_and_isotype}</td>
-                    <td><span class="badge bg-light text-dark border">${ab.format_recombinant_monoclonal}</span></td>
+                    <td>${ab.host_organism_and_isotype || 'N/A'}</td>
+                    <td><span class="badge bg-light text-dark border">${ab.format_recombinant_monoclonal || 'Recombinant'}</span></td>
                     <td>${ab.vendor}</td>
                     <td>
                         <a href="${ab.catalog_link}" target="_blank" class="text-decoration-none fw-semibold">#${ab.catalog_number}</a>
@@ -80,16 +79,42 @@
                     <td>
                         <a href="https://scicrunch.org/resources/Any/search?q=${ab.rrid}" target="_blank" class="badge bg-secondary text-decoration-none">${ab.rrid}</a>
                     </td>
-                    <td>${(ab.validated_in_these_applications || []).join(', ')}</td>
                     <td>
-                        <a href="${ab.validation_data_link}" target="_blank" class="text-decoration-none d-block small mb-1">🔗 View Validation Data</a>
-                        <small class="text-muted d-block" style="max-width: 250px;">${ab.validation_notes} (Verified by: ${ab.validated_by})</small>
+                        <div class="d-flex flex-column gap-2" style="min-width: 280px;">
+                            
+                            ${ab.validations && Array.isArray(ab.validations) ? 
+                                ab.validations.map(v => `
+                                    <div class="p-2 rounded bg-white border border-light shadow-sm">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <span class="badge bg-primary">${v.application}</span>
+                                            <a href="${v.link}" target="_blank" class="text-decoration-none fw-semibold small">🔗 View Assay Data</a>
+                                        </div>
+                                        ${v.notes ? `<small class="text-muted d-block lh-sm">${v.notes}</small>` : ''}
+                                    </div>
+                                `).join('') 
+                            : ''}
+
+                            ${ab.validated_in_these_applications && Array.isArray(ab.validated_in_these_applications) && !ab.validations ? 
+                                ab.validated_in_these_applications.map(app => `
+                                    <div class="p-2 rounded bg-white border border-light shadow-sm">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <span class="badge bg-secondary">${app}</span>
+                                            ${ab.validation_data_link ? `<a href="${ab.validation_data_link}" target="_blank" class="text-decoration-none fw-semibold small">🔗 View Source Link</a>` : ''}
+                                        </div>
+                                        ${ab.validation_notes ? `<small class="text-muted d-block lh-sm">${ab.validation_notes} <span class="fst-italic">(Verified by: ${ab.validated_by || 'Unknown'})</span></small>` : ''}
+                                    </div>
+                                `).join('')
+                            : ''}
+
+                            ${(!ab.validations && !ab.validated_in_these_applications) ? '<span class="text-muted small italic">No records provided</span>' : ''}
+                            
+                        </div>
                     </td>
                 </tr>
             `).join('');
         }
 
-        // Initialize script on launch
+        // Run on page boot
         loadDatabase();
     </script>
 </body>

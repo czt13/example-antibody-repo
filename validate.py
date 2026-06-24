@@ -9,7 +9,7 @@ def load_schema(schema_path):
         return json.load(f)
 
 def validate_json_files(data_dir, schema):
-    # Initialize the format checker to validate URLs and email structures
+    # Initialize the format checker to validate URLs and email structures:
     format_checker = FormatChecker()
     errors_found = False
 

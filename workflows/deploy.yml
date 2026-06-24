@@ -1,0 +1,38 @@
+name: Deploy Database to GitHub Pages
+
+on:
+  push:
+    branches: [ "main" ] # Runs whenever a PR is merged to main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Compile JSON Data
+        run: python compile_data.py
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Tell GitHub Pages to host everything in your root directory 
+          # (including database.json and your upcoming index.html)
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

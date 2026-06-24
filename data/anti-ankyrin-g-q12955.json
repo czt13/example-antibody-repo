@@ -1,0 +1,26 @@
+{
+  "antibody_name": "Anti-Ankyrin-G",
+  "uniprot_accession_number": "Q12955",
+  "uniprot_link": "https://www.uniprot.org/uniprotkb/Q12955/entry",
+  "target_name_protein_biomarker": "Ankyrin-G",
+  "ag_notes_epitope_or_modified_forms": "Human target",
+  "reacts_with": [
+    "Human",
+    "Mouse",
+    "Rat"
+  ],
+  "host_organism_and_isotype": "Mouse IgG2a",
+  "format_recombinant_monoclonal": "Recombinant Mouse Monoclonal",
+  "open_source": true,
+  "vendor": "Addgene",
+  "catalog_number": "192039",
+  "catalog_link": "https://www.addgene.org/192039/",
+  "rrid": "RRID:AB_2921666",
+  "validated_in_these_applications": [
+    "ICC",
+    "IHC"
+  ],
+  "validation_data_link": "https://www.addgene.org/192039/",
+  "validation_notes": "Validated in ICC and IHC applications.",
+  "validated_by": "Zhuhao Wu"
+}

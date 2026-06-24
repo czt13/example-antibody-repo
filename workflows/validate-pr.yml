@@ -1,0 +1,35 @@
+name: Validate Antibody Entries
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Required to fetch git history and see changed files
+
+    - name: Get changed files in data/
+      id: changed-files
+      uses: tj-actions/changed-files@v44
+      with:
+        files: data/*.json
+
+    - name: Set up Python
+      if: steps.changed-files.outputs.any_changed == 'true'
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      if: steps.changed-files.outputs.any_changed == 'true'
+      run: pip install jsonschema rfc3987
+
+    - name: Run validation script on changed files
+      if: steps.changed-files.outputs.any_changed == 'true'
+      run: |
+        python validate.py ${{ steps.changed-files.outputs.all_changed_files }}

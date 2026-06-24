@@ -8,14 +8,36 @@
 </head>
 <body class="bg-light">
     <div class="container-fluid px-5 my-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-dark m-0">Recombinant Antibody Registry</h1>
-        <a href="./submit.html" class="btn btn-primary d-flex align-items-center gap-2 shadow-sm">
-            ➕ Submit New Antibody
-        </a>
-    </div>
-    
-    <div class="card shadow-sm border-0">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="text-dark m-0">Recombinant Antibody Registry</h1>
+            <a href="./submit.html" class="btn btn-primary d-flex align-items-center gap-2 shadow-sm">
+                ➕ Submit New Antibody
+            </a>
+        </div>
+
+        <div class="card shadow-sm border-0 p-4 mb-4 bg-white">
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label class="form-label fw-semibold text-secondary small">Search Keywords</label>
+                    <input type="text" id="searchBar" class="form-control" placeholder="Search by name, biomarker, UniProt, catalog #, or RRID..." oninput="filterDatabase()">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold text-secondary small">Filter by Vendor</label>
+                    <select id="vendorFilter" class="form-select" onchange="filterDatabase()">
+                        <option value="">All Vendors</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold text-secondary small">Filter by Validation Assay</label>
+                    <select id="assayFilter" class="form-select" onchange="filterDatabase()">
+                        <option value="">All Assays (IHC, WB, ICC, etc.)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm border-0">
             <div class="table-responsive">
                 <table class="table table-striped table-hover align-middle mb-0">
                     <thead class="table-dark">
@@ -45,26 +67,104 @@
     </div>
 
     <script>
-        // Fetch the compiled database file
+        // Global runtime application state scopes
+        let rawAntibodyDataset = [];
+
+        // Fetch compiled centralized database file
         async function loadDatabase() {
             try {
                 const response = await fetch('./database.json');
-                const antibodies = await response.json();
-                renderTable(antibodies);
+                rawAntibodyDataset = await response.json();
+                
+                // Extract parameters to dynamically populate search selector modules
+                populateFilterOptions(rawAntibodyDataset);
+                
+                // Initial render pass
+                renderTable(rawAntibodyDataset);
             } catch (error) {
                 document.getElementById('databaseBody').innerHTML = 
                     `<tr><td colspan="9" class="text-center text-danger py-4">Error loading data. Verify that database.json has been compiled successfully.</td></tr>`;
             }
         }
 
+        // Dynamically inspects records to populate dropdown selections based on live data values
+        function populateFilterOptions(data) {
+            const vendorSelect = document.getElementById('vendorFilter');
+            const assaySelect = document.getElementById('assayFilter');
+            
+            const uniqueVendors = new Set();
+            const uniqueAssays = new Set();
+
+            data.forEach(ab => {
+                if (ab.vendor) uniqueVendors.add(ab.vendor.trim());
+
+                // Parse modern nested validation structures
+                if (ab.validations && Array.isArray(ab.validations)) {
+                    ab.validations.forEach(v => {
+                        if (v.application) {
+                            // Split comma separated listings like "IHC, Western Blot" into single terms
+                            v.application.split(',').forEach(item => uniqueAssays.add(item.trim()));
+                        }
+                    });
+                }
+                // Parse legacy fallback validation lists
+                if (ab.validated_in_these_applications && Array.isArray(ab.validated_in_these_applications)) {
+                    ab.validated_in_these_applications.forEach(item => uniqueAssays.add(item.trim()));
+                }
+            });
+
+            // Append sorted values into selectors
+            Array.from(uniqueVendors).sort().forEach(vendor => {
+                vendorSelect.options[vendorSelect.options.length] = new Option(vendor, vendor);
+            });
+            Array.from(uniqueAssays).sort().forEach(assay => {
+                assaySelect.options[assaySelect.options.length] = new Option(assay, assay);
+            });
+        }
+
+        // Filters matching array metrics inside user interface state
+        function filterDatabase() {
+            const searchQuery = document.getElementById('searchBar').value.toLowerCase().trim();
+            const selectedVendor = document.getElementById('vendorFilter').value;
+            const selectedAssay = document.getElementById('assayFilter').value;
+
+            const filteredData = rawAntibodyDataset.filter(ab => {
+                // 1. Calculate Keyword String Matches across key fields
+                const matchKeyword = 
+                    (ab.antibody_name && ab.antibody_name.toLowerCase().includes(searchQuery)) ||
+                    (ab.target_name_protein_biomarker && ab.target_name_protein_biomarker.toLowerCase().includes(searchQuery)) ||
+                    (ab.uniprot_accession_number && ab.uniprot_accession_number.toLowerCase().includes(searchQuery)) ||
+                    (ab.catalog_number && ab.catalog_number.toLowerCase().includes(searchQuery)) ||
+                    (ab.rrid && ab.rrid.toLowerCase().includes(searchQuery));
+
+                // 2. Calculate explicit dropdown matches
+                const matchVendor = !selectedVendor || ab.vendor === selectedVendor;
+                
+                // 3. Inspect both nested and legacy arrays for matching assay selection
+                let matchAssay = !selectedAssay;
+                if (selectedAssay) {
+                    if (ab.validations && Array.isArray(ab.validations)) {
+                        matchAssay = ab.validations.some(v => v.application && v.application.includes(selectedAssay));
+                    }
+                    if (!matchAssay && ab.validated_in_these_applications && Array.isArray(ab.validated_in_these_applications)) {
+                        matchAssay = ab.validated_in_these_applications.includes(selectedAssay);
+                    }
+                }
+
+                return matchKeyword && matchVendor && matchAssay;
+            });
+
+            renderTable(filteredData);
+        }
+
+        // Maps data arrays into semantic structural layout rows
         function renderTable(data) {
             const tbody = document.getElementById('databaseBody');
             if (data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" class="text-center py-4 text-muted">No entries found in the database.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center py-4 text-muted">No records matching your search settings were found.</td></tr>`;
                 return;
             }
 
-            // Map entries into safe table rows
             tbody.innerHTML = data.map(ab => `
                 <tr>
                     <td><strong>${ab.antibody_name}</strong></td>
@@ -119,7 +219,7 @@
             `).join('');
         }
 
-        // Run on page boot
+        // Initialize engine on initial document parsing complete
         loadDatabase();
     </script>
 </body>

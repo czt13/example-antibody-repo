@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Antibody - Registry Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container my-5" style="max-width: 800px;">
+        <div class="mb-4">
+            <a href="./index.html" class="text-decoration-none fw-semibold">⬅️ Back to Registry Database</a>
+        </div>
+
+        <div class="card shadow border-0 p-4 mb-5">
+            <h2 class="card-title mb-1 text-primary">Antibody Metadata Generator</h2>
+            <p class="text-muted small mb-4">Fill out the field parameters below. The form will automatically format, check, and package your submission into a verified JSON file for GitHub Pull Requests.</p>
+            
+            <form id="antibodyForm" onsubmit="handleFormSubmission(event)">
+                
+                <h5 class="text-secondary border-bottom pb-2 mb-3">1. Core Nomenclature</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Antibody Name <span class="text-danger">*</span></label>
+                        <input type="text" id="antibody_name" class="form-control" placeholder="e.g., Anti-PSD-95 [K28/43R]" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Target Biomarker / Protein <span class="text-danger">*</span></label>
+                        <input type="text" id="target_name" class="form-control" placeholder="e.g., PSD-95" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">UniProt Accession Number <span class="text-danger">*</span></label>
+                        <input type="text" id="uniprot_id" class="form-control" placeholder="e.g., P78352" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Epitope / Ag Notes <span class="text-muted">(Optional)</span></label>
+                        <input type="text" id="ag_notes" class="form-control" placeholder="e.g., Human target; C-terminus">
+                    </div>
+                </div>
+
+                <h5 class="text-secondary border-bottom pb-2 mb-3">2. Production & Registry Info</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Vendor <span class="text-danger">*</span></label>
+                        <input type="text" id="vendor" class="form-control" placeholder="e.g., Addgene" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Catalog Number <span class="text-danger">*</span></label>
+                        <input type="text" id="catalog_number" class="form-control" placeholder="e.g., 180082" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">RRID <span class="text-danger">*</span></label>
+                        <input type="text" id="rrid" class="form-control" placeholder="e.g., RRID:AB_2750659" pattern="^RRID:AB_\d+$" title="Must match format 'RRID:AB_' followed by numbers" required>
+                        <div class="form-text text-muted">Format: RRID:AB_1234567</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Host Organism & Isotype <span class="text-danger">*</span></label>
+                        <input type="text" id="host_isotype" class="form-control" placeholder="e.g., Mouse IgG2a" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Format Structure <span class="text-danger">*</span></label>
+                        <input type="text" id="format_structure" class="form-control" placeholder="e.g., Recombinant Mouse Monoclonal" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold d-block">Reacts With <span class="text-danger">*</span></label>
+                        <div class="form-check form-check-inline mt-1">
+                            <input class="form-check-input react-species" type="checkbox" value="Human" id="specHuman">
+                            <label class="form-check-label" for="specHuman">Human</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input react-species" type="checkbox" value="Mouse" id="specMouse">
+                            <label class="form-check-label" for="specMouse">Mouse</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input react-species" type="checkbox" value="Rat" id="specRat">
+                            <label class="form-check-label" for="specRat">Rat</label>
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="text-secondary border-bottom pb-2 mb-3">3. Validation Assay Records</h5>
+                <p class="text-muted small">Provide details for the validations. Fill out at least one entry.</p>
+                
+                <div id="validationContainer">
+                    <div class="validation-entry p-3 rounded bg-white border border-light shadow-sm mb-3 position-relative">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Application Type</label>
+                                <input type="text" class="form-control form-control-sm val-app" placeholder="e.g., Western Blot, IHC" required>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label small fw-semibold">Assay Data URL Link</label>
+                                <input type="url" class="form-control form-control-sm val-link" placeholder="https://datahub.addgene.org/..." required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Assay Validation Notes</label>
+                                <input type="text" class="form-control form-control-sm val-notes" placeholder="e.g., Validated by James Trimmer via Addgene Data Hub." required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn btn-outline-secondary btn-sm mb-4" onclick="addValidationRow()">
+                    ➕ Add Another Validation Entry
+                </button>
+
+                <div id="validationAlert" class="alert d-none" role="alert"></div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success btn-lg shadow-sm">Validate & Download JSON File</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Appends a new validation module to the list interface dynamically
+        function addValidationRow() {
+            const container = document.getElementById('validationContainer');
+            const newRow = document.createElement('div');
+            newRow.className = "validation-entry p-3 rounded bg-white border border-light shadow-sm mb-3 position-relative";
+            newRow.innerHTML = `
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-2" style="font-size:0.75rem;" onclick="this.parentElement.remove()"></button>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label small fw-semibold">Application Type</label>
+                        <input type="text" class="form-control form-control-sm val-app" placeholder="e.g., ICC, Flow Cytometry" required>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label small fw-semibold">Assay Data URL Link</label>
+                        <input type="url" class="form-control form-control-sm val-link" placeholder="https://..." required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label small fw-semibold">Assay Validation Notes</label>
+                        <input type="text" class="form-control form-control-sm val-notes" placeholder="Validation notes or researcher context..." required>
+                    </div>
+                </div>
+            `;
+            container.appendChild(newRow);
+        }
+
+        // Intercepts submit, packages properties, runs schema integrity validation, saves download
+        function handleFormSubmission(event) {
+            event.preventDefault();
+            const alertBox = document.getElementById('validationAlert');
+            alertBox.className = "alert d-none"; // Reset alert states
+
+            // 1. Gather checkbox list arrays
+            const selectedSpecies = [];
+            document.querySelectorAll('.react-species:checked').forEach(cb => {
+                selectedSpecies.push(cb.value);
+            });
+
+            if (selectedSpecies.length === 0) {
+                showAlert("Please select at least one species in 'Reacts With'.", "danger");
+                return;
+            }
+
+            // 2. Gather validation array items
+            const validationObjects = [];
+            const rows = document.querySelectorAll('.validation-entry');
+            let validationError = false;
+
+            rows.forEach(row => {
+                const app = row.querySelector('.val-app').value.trim();
+                const link = row.querySelector('.val-link').value.trim();
+                const notes = row.querySelector('.val-notes').value.trim();
+
+                if (!app || !link || !notes) {
+                    validationError = true;
+                } else {
+                    validationObjects.push({
+                        application: app,
+                        link: link,
+                        notes: notes
+                    });
+                }
+            });
+
+            if (validationError || validationObjects.length === 0) {
+                showAlert("Please fill out all visible validation parameter blocks fully.", "danger");
+                return;
+            }
+
+            // 3. Construct the clean structural object mapping your exact system schema
+            const uniprot = document.getElementById('uniprot_id').value.trim().toUpperCase();
+            const vendor = document.getElementById('vendor').value.trim();
+            const catalog = document.getElementById('catalog_number').value.trim();
+            const targetName = document.getElementById('target_name').value.trim();
+
+            const jsonOutput = {
+                antibody_name: document.getElementById('antibody_name').value.trim(),
+                uniprot_accession_number: uniprot,
+                uniprot_link: `https://www.uniprot.org/uniprotkb/${uniprot}/entry`,
+                target_name_protein_biomarker: targetName,
+                ag_notes_epitope_or_modified_forms: document.getElementById('ag_notes').value.trim() || undefined,
+                reacts_with: selectedSpecies,
+                host_organism_and_isotype: document.getElementById('host_isotype').value.trim(),
+                format_recombinant_monoclonal: document.getElementById('format_structure').value.trim(),
+                open_source: true,
+                vendor: vendor,
+                catalog_number: catalog,
+                catalog_link: `https://www.com/search?q=${catalog}`, // Can update fallback vendor linking if needed
+                rrid: document.getElementById('rrid').value.trim(),
+                validations: validationObjects
+            };
+
+            // Clean up any undefined keys (like an empty optional ag_notes string)
+            Object.keys(jsonOutput).forEach(key => jsonOutput[key] === undefined && delete jsonOutput[key]);
+
+            // 4. Generate download trigger following your clean file naming scheme
+            // Schema pattern: [target]-[vendor]-[catalog].json (all lowercase, no spaces)
+            const safeTarget = targetName.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const safeVendor = vendor.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const safeCatalog = catalog.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const computedFilename = `${safeTarget}-${safeVendor}-${safeCatalog}.json`;
+
+            try {
+                // Compile data payload into blob stream
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(jsonOutput, null, 2));
+                const downloadAnchor = document.createElement('a');
+                downloadAnchor.setAttribute("href", dataStr);
+                downloadAnchor.setAttribute("download", computedFilename);
+                document.body.appendChild(downloadAnchor);
+                downloadAnchor.click();
+                downloadAnchor.remove();
+
+                showAlert(`<strong>Success!</strong> File <code>${computedFilename}</code> downloaded successfully. Please upload this file into your Pull Request inside the <code>data/</code> folder.`, "success");
+            } catch (err) {
+                showAlert("An unexpected client-side compiler tracking error occurred generating the file output.", "danger");
+            }
+        }
+
+        function showAlert(message, type) {
+            const alertBox = document.getElementById('validationAlert');
+            alertBox.className = `alert alert-${type} mt-3 d-block`;
+            alertBox.innerHTML = message;
+        }
+    </script>
+</body>
+</html>

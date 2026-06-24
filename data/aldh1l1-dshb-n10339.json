@@ -1,0 +1,26 @@
+{
+  "antibody_name": "Anti-Aldh1L1 (Blotting) Antibody [N103/39]",
+  "uniprot_accession_number": "P28037",
+  "uniprot_link": "https://www.uniprot.org/uniprotkb/P28037/entry",
+  "target_name_protein_biomarker": "Aldh1l1",
+  "ag_notes_epitope_or_modified_forms": "Rat",
+  "reacts_with": [
+    "Human",
+    "Mouse",
+    "Rat"
+  ],
+  "host_organism_and_isotype": "Mouse IgG1",
+  "format_recombinant_monoclonal": "Mouse Monoclonal",
+  "open_source": true,
+  "vendor": "DSHB",
+  "catalog_number": "N103/39",
+  "catalog_link": "https://www.addgene.org/N103/39/",
+  "rrid": "RRID:AB_2877301",
+  "validations": [
+    {
+      "application": "validation",
+      "link": "https://mab3d-atlas.com/validated-antibody-database/aldh1l1/",
+      "notes": "Validated by Zhuhao Wu"
+    }
+  ]
+}

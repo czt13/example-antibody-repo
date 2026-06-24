@@ -8,7 +8,6 @@
     "vendor",
     "catalog_number",
     "rrid",
-    "validations"
   ],
   "properties": {
     "antibody_name": { "type": "string" },

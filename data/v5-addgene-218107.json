@@ -1,0 +1,24 @@
+{
+  "antibody_name": "Anti-V5 [IPI-SV5-Pk1]",
+  "uniprot_accession_number": "Tag",
+  "uniprot_link": null,
+  "target_name_protein_biomarker": "V5",
+  "ag_notes_epitope_or_modified_forms": "Binds GKPIPNPLLGLDST sequence",
+  "reacts_with": [
+    "Tag"
+  ],
+  "host_organism_and_isotype": "Rabbit IgG",
+  "format_recombinant_monoclonal": "Chimeric Recombinant (Mouse V / Rabbit C)",
+  "open_source": true,
+  "vendor": "Addgene",
+  "catalog_number": "218107",
+  "catalog_link": "https://www.addgene.org/218107/",
+  "rrid": "RRID:AB_3095606",
+  "validations": [
+    {
+      "application": "Western Blot",
+      "link": "https://datahub.addgene.org/antibody/l0ulu4?_gl=1*1eyd2uk*_gcl_au*MTAzODQyMjMzMi4xNzY4OTM1NDYy*_ga*MTgyOTQxODU2Ni4xNzQyMjM3OTg2*_ga_5SC3L963MZ*czE3NzMzMzAxOTUkbzIwNCRnMSR0MTc3MzMzMDg0MiRqNTAkbDAkaDA.",
+      "notes": "Validated by IPI"
+    }
+  ]
+}

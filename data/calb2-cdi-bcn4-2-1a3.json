@@ -1,0 +1,44 @@
+{
+  "antibody_name": "Ani-CALB2 Antibody",
+  "uniprot_accession_number": "P22676",
+  "uniprot_link": "https://www.uniprot.org/uniprotkb/P22676/entry",
+  "target_name_protein_biomarker": "CALB2",
+  "ag_notes_epitope_or_modified_forms": "Mouse",
+  "reacts_with": [
+    "Mouse"
+  ],
+  "host_organism_and_isotype": "Mouse IgG2b",
+  "format_recombinant_monoclonal": "Mouse Monoclonal",
+  "open_source": true,
+  "vendor": "CDI",
+  "catalog_number": "BCN4.2.1A3",
+  "catalog_link": null,
+  "rrid": null,
+  "validations": [
+    {
+      "application": "IHC",
+      "link": "https://airtable.com/embed/appjJzond4ghOS726/shrQ5v28dHURc57v0/tblEUyfX0Lr5c17UZ/viwkQHLloAiAhZCJP/recmVGVnIP9fhLkal/fldWYHz1Voi4JTbTL?copyLinkToCellOrRecordOrigin=gridView",
+      "notes": "Validated by Kwanghun Chung"
+    },
+    {
+      "application": "IHC",
+      "link": "https://airtable.com/embed/appjJzond4ghOS726/shrQ5v28dHURc57v0/tblEUyfX0Lr5c17UZ/viwkQHLloAiAhZCJP/recmVGVnIP9fhLkal/fldp8aeMkIFxH1aYJ?copyLinkToCellOrRecordOrigin=gridView",
+      "notes": "Validated by Kwanghun Chung"
+    },
+    {
+      "application": "IHC",
+      "link": "https://airtable.com/embed/appjJzond4ghOS726/shrQ5v28dHURc57v0/tblEUyfX0Lr5c17UZ/viwkQHLloAiAhZCJP/recmVGVnIP9fhLkal/fldufaevDt2VxFiah?copyLinkToCellOrRecordOrigin=gridView",
+      "notes": "Validated by Kwanghun Chung"
+    },
+    {
+      "application": "IHC",
+      "link": "https://airtable.com/embed/appjJzond4ghOS726/shrQ5v28dHURc57v0/tblEUyfX0Lr5c17UZ/viwkQHLloAiAhZCJP/recmVGVnIP9fhLkal/fldXii8mDeBGL4VTP?copyLinkToCellOrRecordOrigin=gridView",
+      "notes": "Validated by Kwanghun Chung"
+    },
+    {
+      "application": "IHC",
+      "link": "https://airtable.com/embed/appjJzond4ghOS726/shrQ5v28dHURc57v0/tblEUyfX0Lr5c17UZ/viwkQHLloAiAhZCJP/recmVGVnIP9fhLkal/fldgd1jNWOpSeHvbm?copyLinkToCellOrRecordOrigin=gridView",
+      "notes": "Validated by Kwanghun Chung"
+    }
+  ]
+}

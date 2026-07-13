@@ -3,6 +3,8 @@ name: Validate Antibody Entries
 on:
   pull_request:
     branches: [ "main" ]
+  push:
+    branches: [ "main" ]
 
 jobs:
   validate:
